@@ -24,6 +24,23 @@ class MenuController extends Controller
     // Menyimpan menu baru
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_menu' => 'required',
+            'kategori' => 'required',
+            'harga' => 'required|numeric',
+            'deskripsi' => 'nullable',
+            'status' => 'required',
+        ]);
 
+        Menu::create([
+            'nama_menu' => $request->nama_menu,
+            'kategori' => $request->kategori,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('menu.index')
+            ->with('success', 'Menu berhasil ditambahkan.');
     }
 }
