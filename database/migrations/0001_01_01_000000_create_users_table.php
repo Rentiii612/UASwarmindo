@@ -10,16 +10,18 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+{
+    Schema::create('menus', function (Blueprint $table) {
+        $table->id();
+        $table->string('nama_menu');
+        $table->string('kategori');
+        $table->integer('harga');
+        $table->text('deskripsi')->nullable();
+        $table->string('gambar')->nullable();
+        $table->enum('status', ['tersedia', 'habis'])->default('tersedia');
+        $table->timestamps();
+    });
+}
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
