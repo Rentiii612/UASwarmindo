@@ -14,4 +14,9 @@ class Menu extends Model
         'gambar',
         'status',
     ];
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }
