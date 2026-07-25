@@ -43,4 +43,42 @@ class MenuController extends Controller
         return redirect()->route('menu.index')
             ->with('success', 'Menu berhasil ditambahkan.');
     }
+
+    // Menampilkan form edit menu
+    public function edit(Menu $menu)
+    {
+        return view('menu.edit', compact('menu'));
+    }
+
+    // Menyimpan perubahan menu
+    public function update(Request $request, Menu $menu)
+    {
+        $request->validate([
+            'nama_menu' => 'required',
+            'kategori' => 'required',
+            'harga' => 'required|numeric',
+            'deskripsi' => 'nullable',
+            'status' => 'required',
+        ]);
+
+        $menu->update([
+            'nama_menu' => $request->nama_menu,
+            'kategori' => $request->kategori,
+            'harga' => $request->harga,
+            'deskripsi' => $request->deskripsi,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('menu.index')
+            ->with('success', 'Menu berhasil diubah.');
+    }
+
+    // Menghapus menu
+    public function destroy(Menu $menu)
+    {
+        $menu->delete();
+
+        return redirect()->route('menu.index')
+            ->with('success', 'Menu berhasil dihapus.');
+    }
 }

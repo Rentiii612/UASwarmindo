@@ -1,45 +1,166 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Kelola Menu</title>
-</head>
-<body>
+@extends('layouts.admin')
+
+@section('content')
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+<h2>Kelola Menu</h2>
+
+<a href="{{ route('menu.create') }}"
+class="btn btn-success">
+
+<i class="fa-solid fa-plus"></i>
+
+Tambah Menu
+
+</a>
+
+</div>
 
 @if(session('success'))
-    <p style="color:green;">
-        {{ session('success') }}
-    </p>
+
+<div class="alert alert-success">
+
+{{ session('success') }}
+
+</div>
+
 @endif
 
-    <h1>Kelola Menu Warmindo</h1>
+<div class="card">
 
-    <a href="{{ route('menu.create') }}">
-        + Tambah Menu
-    </a>
+<div class="card-body">
 
-    <hr>
+<table class="table table-hover align-middle">
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>No</th>
-            <th>Nama Menu</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-        </tr>
+<thead class="table-dark">
 
-        @forelse($menus as $menu)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $menu->nama_menu }}</td>
-                <td>{{ $menu->kategori }}</td>
-                <td>Rp {{ number_format($menu->harga) }}</td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="4">Belum ada menu.</td>
-            </tr>
-        @endforelse
-    </table>
+<tr>
 
-</body>
-</html>
+<th>No</th>
+
+<th>Nama Menu</th>
+
+<th>Kategori</th>
+
+<th>Harga</th>
+
+<th>Status</th>
+
+<th width="180">
+
+Aksi
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@forelse($menus as $menu)
+
+<tr>
+
+<td>
+
+{{ $loop->iteration }}
+
+</td>
+
+<td>
+
+{{ $menu->nama_menu }}
+
+</td>
+
+<td>
+
+{{ $menu->kategori }}
+
+</td>
+
+<td>
+
+Rp {{ number_format($menu->harga) }}
+
+</td>
+
+<td>
+
+@if($menu->status=='tersedia')
+
+<span class="badge bg-success">
+
+Tersedia
+
+</span>
+
+@else
+
+<span class="badge bg-danger">
+
+Habis
+
+</span>
+
+@endif
+
+</td>
+
+<td>
+
+<a href="{{ route('menu.edit',$menu->id) }}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<form action="{{ route('menu.destroy',$menu->id) }}"
+method="POST"
+class="d-inline">
+
+@csrf
+
+@method('DELETE')
+
+<button
+class="btn btn-danger btn-sm"
+onclick="return confirm('Yakin ingin menghapus menu?')">
+
+Hapus
+
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+@empty
+
+<tr>
+
+<td colspan="6"
+class="text-center">
+
+Belum ada menu.
+
+</td>
+
+</tr>
+
+@endforelse
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+@endsection

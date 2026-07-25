@@ -1,48 +1,135 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Menu</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-<h1>Tambah Menu</h1>
+@section('content')
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+<h4 class="mb-0">
+
+Tambah Menu
+
+</h4>
+
+</div>
+
+<div class="card-body">
 
 <form action="{{ route('menu.store') }}" method="POST">
 
-    @csrf
+@csrf
 
-    <label>Nama Menu</label><br>
-    <input type="text" name="nama_menu"><br><br>
+<div class="mb-3">
 
-    <label>Kategori</label><br>
-    <input type="text" name="kategori"><br><br>
+<label class="form-label">
 
-    <label>Harga</label><br>
-    <input type="number" name="harga"><br><br>
+Nama Menu
 
-    <label>Deskripsi</label><br>
-    <textarea name="deskripsi"></textarea><br><br>
+</label>
 
-    <label>Status</label><br>
+<input
+type="text"
+name="nama_menu"
+class="form-control"
+required>
 
-    <select name="status">
-        <option value="tersedia">Tersedia</option>
-        <option value="habis">Habis</option>
-    </select>
+</div>
 
-    <br><br>
+<div class="mb-3">
 
-    <button type="submit">
-        Simpan
-    </button>
+<label class="form-label">
+
+Kategori
+
+</label>
+
+<input
+type="text"
+name="kategori"
+class="form-control"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Harga
+
+</label>
+
+<input
+type="number"
+name="harga"
+class="form-control"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Deskripsi
+
+</label>
+
+<textarea
+name="deskripsi"
+class="form-control"
+rows="3"></textarea>
+
+</div>
+
+<div class="mb-3">
+
+<label class="form-label">
+
+Status
+
+</label>
+
+<select
+name="status"
+class="form-select">
+
+<option value="tersedia">
+
+Tersedia
+
+</option>
+
+<option value="habis">
+
+Habis
+
+</option>
+
+</select>
+
+</div>
+
+<button
+class="btn btn-success">
+
+💾 Simpan
+
+</button>
+
+<a
+href="{{ route('menu.index') }}"
+class="btn btn-secondary">
+
+← Kembali
+
+</a>
 
 </form>
 
-<br>
+</div>
 
-<a href="{{ route('menu.index') }}">
-    Kembali
-</a>
+</div>
 
-</body>
-</html>
+@endsection
