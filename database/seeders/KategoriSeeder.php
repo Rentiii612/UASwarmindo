@@ -9,7 +9,11 @@ class KategoriSeeder extends Seeder
 {
     public function run(): void
     {
-        $kategori = [
+        // Hapus semua kategori lama
+        Kategori::query()->delete();
+
+        // Tambahkan kategori Warmindo
+        $kategoris = [
             'Menu Indomie',
             'Menu Mie',
             'Menu Nasi/Goreng',
@@ -21,9 +25,9 @@ class KategoriSeeder extends Seeder
             'Minuman Panas',
         ];
 
-        foreach ($kategori as $item) {
+        foreach ($kategoris as $nama) {
             Kategori::create([
-                'nama_kategori' => $item
+                'nama_kategori' => $nama,
             ]);
         }
     }

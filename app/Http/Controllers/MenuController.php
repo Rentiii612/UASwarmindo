@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -18,7 +19,9 @@ class MenuController extends Controller
     // Menampilkan form tambah menu
     public function create()
     {
-        return view('menu.create');
+        $kategoris = Kategori::all();
+
+        return view('menu.create', compact('kategoris'));
     }
 
     // Menyimpan menu baru
@@ -47,7 +50,9 @@ class MenuController extends Controller
     // Menampilkan form edit menu
     public function edit(Menu $menu)
     {
-        return view('menu.edit', compact('menu'));
+        $kategoris = Kategori::all();
+
+        return view('menu.edit', compact('menu', 'kategoris'));
     }
 
     // Menyimpan perubahan menu

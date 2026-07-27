@@ -4,131 +4,125 @@
 
 <div class="card">
 
-<div class="card-header bg-success text-white">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">
+            Tambah Menu
+        </h4>
+    </div>
 
-<h4 class="mb-0">
+    <div class="card-body">
 
-Tambah Menu
+        <form action="{{ route('menu.store') }}" method="POST">
 
-</h4>
+            @csrf
 
-</div>
+            <div class="mb-3">
 
-<div class="card-body">
+                <label class="form-label">
+                    Nama Menu
+                </label>
 
-<form action="{{ route('menu.store') }}" method="POST">
+                <input
+                    type="text"
+                    name="nama_menu"
+                    class="form-control"
+                    required>
 
-@csrf
+            </div>
 
-<div class="mb-3">
+            <div class="mb-3">
 
-<label class="form-label">
+                <label class="form-label">
+                    Kategori
+                </label>
 
-Nama Menu
+                <select
+                    name="kategori"
+                    class="form-select"
+                    required>
 
-</label>
+                    <option value="">-- Pilih Kategori --</option>
 
-<input
-type="text"
-name="nama_menu"
-class="form-control"
-required>
+                    @foreach($kategoris as $kategori)
 
-</div>
+                        <option value="{{ $kategori->nama_kategori }}">
+                            {{ $kategori->nama_kategori }}
+                        </option>
 
-<div class="mb-3">
+                    @endforeach
 
-<label class="form-label">
+                </select>
 
-Kategori
+            </div>
 
-</label>
+            <div class="mb-3">
 
-<input
-type="text"
-name="kategori"
-class="form-control"
-required>
+                <label class="form-label">
+                    Harga
+                </label>
 
-</div>
+                <input
+                    type="number"
+                    name="harga"
+                    class="form-control"
+                    required>
 
-<div class="mb-3">
+            </div>
 
-<label class="form-label">
+            <div class="mb-3">
 
-Harga
+                <label class="form-label">
+                    Deskripsi
+                </label>
 
-</label>
+                <textarea
+                    name="deskripsi"
+                    class="form-control"
+                    rows="3"></textarea>
 
-<input
-type="number"
-name="harga"
-class="form-control"
-required>
+            </div>
 
-</div>
+            <div class="mb-3">
 
-<div class="mb-3">
+                <label class="form-label">
+                    Status
+                </label>
 
-<label class="form-label">
+                <select
+                    name="status"
+                    class="form-select">
 
-Deskripsi
+                    <option value="Tersedia">
+                        Tersedia
+                    </option>
 
-</label>
+                    <option value="Habis">
+                        Habis
+                    </option>
 
-<textarea
-name="deskripsi"
-class="form-control"
-rows="3"></textarea>
+                </select>
 
-</div>
+            </div>
 
-<div class="mb-3">
+            <button
+                type="submit"
+                class="btn btn-success">
 
-<label class="form-label">
+                💾 Simpan
 
-Status
+            </button>
 
-</label>
+            <a
+                href="{{ route('menu.index') }}"
+                class="btn btn-secondary">
 
-<select
-name="status"
-class="form-select">
+                ← Kembali
 
-<option value="tersedia">
+            </a>
 
-Tersedia
+        </form>
 
-</option>
-
-<option value="habis">
-
-Habis
-
-</option>
-
-</select>
-
-</div>
-
-<button
-class="btn btn-success">
-
-💾 Simpan
-
-</button>
-
-<a
-href="{{ route('menu.index') }}"
-class="btn btn-secondary">
-
-← Kembali
-
-</a>
-
-</form>
-
-</div>
+    </div>
 
 </div>
 

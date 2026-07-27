@@ -16,51 +16,33 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <style>
 
 body{
-
-background:#f5f7fb;
-
+    background:#f5f7fb;
 }
 
 .sidebar{
-
-width:260px;
-
-min-height:100vh;
-
-background:#212529;
-
+    width:260px;
+    min-height:100vh;
+    background:#212529;
 }
 
 .sidebar a{
-
-color:white;
-
-text-decoration:none;
-
-display:block;
-
-padding:14px 20px;
-
+    color:white;
+    text-decoration:none;
+    display:block;
+    padding:14px 20px;
 }
 
 .sidebar a:hover{
-
-background:#343a40;
-
+    background:#343a40;
 }
 
 .content{
-
-flex:1;
-
+    flex:1;
 }
 
 .card{
-
-border:none;
-
-box-shadow:0 0 20px rgba(0,0,0,.08);
-
+    border:none;
+    box-shadow:0 0 20px rgba(0,0,0,.08);
 }
 
 </style>
@@ -71,78 +53,70 @@ box-shadow:0 0 20px rgba(0,0,0,.08);
 
 <div class="d-flex">
 
-<div class="sidebar">
+    <div class="sidebar">
 
-<h3 class="text-center text-white py-4">
+        <h3 class="text-center text-white py-4">
+            🍜 Warmindo
+        </h3>
 
-🍜 Warmindo
+        <a href="{{ route('dashboard') }}">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
 
-</h3>
+        <a href="{{ route('menu.index') }}">
+            <i class="fa-solid fa-utensils"></i>
+            Kelola Menu
+        </a>
 
-<a href="{{ route('dashboard') }}">
+        <a href="{{ route('kategori.index') }}">
+            <i class="fa-solid fa-folder"></i>
+            Kelola Kategori
+        </a>
 
-<i class="fa-solid fa-house"></i>
+        <form action="{{ route('logout') }}" method="POST">
 
-Dashboard
+            @csrf
 
-</a>
+            <button class="btn btn-link text-white text-decoration-none w-100 text-start px-3 py-3">
 
-<a href="{{ route('menu.index') }}">
+                <i class="fa-solid fa-right-from-bracket"></i>
 
-<i class="fa-solid fa-utensils"></i>
+                Logout
 
-Kelola Menu
+            </button>
 
-</a>
+        </form>
 
-<form action="{{ route('logout') }}" method="POST">
+    </div>
 
-@csrf
+    <div class="content">
 
-<button class="btn btn-link text-white text-decoration-none w-100 text-start px-3 py-3">
+        <nav class="navbar bg-white shadow-sm">
 
-<i class="fa-solid fa-right-from-bracket"></i>
+            <div class="container-fluid">
 
-Logout
+                <h4 class="mb-0">
+                    Halaman Admin Warmindo
+                </h4>
 
-</button>
+                <span>
+                    Admin
+                </span>
 
-</form>
+            </div>
 
-</div>
+        </nav>
 
-<div class="content">
+        <div class="container mt-4">
 
-<nav class="navbar bg-white shadow-sm">
+            @yield('content')
 
-<div class="container-fluid">
+        </div>
 
-<h4 class="mb-0">
-
-Admin Panel Warmindo
-
-</h4>
-
-<span>
-
-👑 Admin
-
-</span>
-
-</div>
-
-</nav>
-
-<div class="container mt-4">
-
-@yield('content')
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
 </body>
-
 </html>

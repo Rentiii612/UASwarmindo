@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\KategoriController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -66,6 +67,28 @@ Route::put('/menu/{menu}', [MenuController::class, 'update'])
 Route::delete('/menu/{menu}', [MenuController::class, 'destroy'])
     ->name('menu.destroy');
 
+
+// =========================
+// KATEGORI
+// =========================
+
+Route::get('/kategori', [KategoriController::class, 'index'])
+    ->name('kategori.index');
+
+Route::get('/kategori/create', [KategoriController::class, 'create'])
+    ->name('kategori.create');
+
+Route::post('/kategori', [KategoriController::class, 'store'])
+    ->name('kategori.store');
+
+Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])
+    ->name('kategori.edit');
+
+Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])
+    ->name('kategori.update');
+
+Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])
+    ->name('kategori.destroy');
 
     // =========================
     // KASIR
