@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -16,12 +17,8 @@ Route::get('/', function () {
 // LOGIN
 // =========================
 
-Route::get('/login', [AuthController::class, 'login'])
-    ->name('login');
-
-Route::post('/login', [AuthController::class, 'process'])
-    ->name('login.process');
-
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'process'])->name('login.process');
 
 // =========================
 // ROUTE YANG MEMBUTUHKAN LOGIN
@@ -29,66 +26,45 @@ Route::post('/login', [AuthController::class, 'process'])
 
 Route::middleware('auth')->group(function () {
 
-    // =========================
-    // DASHBOARD ADMIN
-    // =========================
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
-
+    // Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // =========================
-    // LOGOUT
+    // MENU
     // =========================
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
+    Route::resource('menu', MenuController::class)->except(['show']);
 
+    // =========================
+    // KATEGORI
+    // =========================
 
-// =========================
-// MENU
-// =========================
+    Route::resource('kategori', KategoriController::class)->except(['show']);
 
-Route::get('/menu', [MenuController::class, 'index'])
-    ->name('menu.index');
+    // =========================
+    // CUSTOMER
+    // =========================
 
-Route::get('/menu/create', [MenuController::class, 'create'])
-    ->name('menu.create');
+    Route::get('/customer', [CustomerController::class, 'index'])
+        ->name('customer.index');
 
-Route::post('/menu', [MenuController::class, 'store'])
-    ->name('menu.store');
+    Route::get('/customer/menu/{menu}', [CustomerController::class, 'show'])
+        ->name('customer.menu.show');
 
-Route::get('/menu/{menu}/edit', [MenuController::class, 'edit'])
-    ->name('menu.edit');
+    Route::post('/customer/cart/{menu}', [CustomerController::class, 'addToCart'])
+        ->name('customer.cart.add');
 
-Route::put('/menu/{menu}', [MenuController::class, 'update'])
-    ->name('menu.update');
+    Route::get('/customer/cart', [CustomerController::class, 'cart'])
+        ->name('customer.cart');
 
-Route::delete('/menu/{menu}', [MenuController::class, 'destroy'])
-    ->name('menu.destroy');
+    Route::put('/customer/cart/{id}', [CustomerController::class, 'updateCart'])
+        ->name('customer.cart.update');
 
-
-// =========================
-// KATEGORI
-// =========================
-
-Route::get('/kategori', [KategoriController::class, 'index'])
-    ->name('kategori.index');
-
-Route::get('/kategori/create', [KategoriController::class, 'create'])
-    ->name('kategori.create');
-
-Route::post('/kategori', [KategoriController::class, 'store'])
-    ->name('kategori.store');
-
-Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])
-    ->name('kategori.edit');
-
-Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])
-    ->name('kategori.update');
-
-Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])
-    ->name('kategori.destroy');
+    Route::delete('/customer/cart/{id}', [CustomerController::class, 'removeFromCart'])
+        ->name('customer.cart.remove');
 
     // =========================
     // KASIR
@@ -96,26 +72,20 @@ Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])
 
     Route::prefix('kasir')->group(function () {
 
-        // Dashboard Kasir
         Route::get('/dashboard', [KasirController::class, 'dashboard'])
             ->name('kasir.dashboard');
 
-        // Daftar Pesanan
         Route::get('/orders', [KasirController::class, 'orders'])
             ->name('kasir.orders');
 
-        // Halaman Pembayaran
         Route::get('/payment/{id}', [PaymentController::class, 'index'])
             ->name('kasir.payment');
 
-        // Proses Pembayaran
         Route::post('/payment/{id}', [PaymentController::class, 'store'])
             ->name('kasir.payment.store');
 
-        // Riwayat Transaksi
         Route::get('/history', [KasirController::class, 'history'])
             ->name('kasir.history');
-
     });
 
 });
