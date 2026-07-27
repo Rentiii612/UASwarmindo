@@ -2,141 +2,307 @@
 
 @section('content')
 
-<h2 class="mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-Dashboard
+    <div>
+        <h2 class="fw-bold mb-1">
+            Dashboard
+        </h2>
 
-</h2>
-
-<div class="row">
-
-<div class="col-md-4">
-
-<div class="card">
-
-<div class="card-body">
-
-<h5>Total Menu</h5>
-
-<h1>
-
-{{ $totalMenu }}
-
-</h1>
+        <p class="text-muted mb-0">
+            Selamat datang di Admin Panel Warmindo 👑
+        </p>
+    </div>
 
 </div>
 
-</div>
+
+{{-- STATISTIK --}}
+
+<div class="row g-4 mb-4">
+
+    {{-- Total Menu --}}
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <p class="text-muted mb-1">
+                            Total Menu
+                        </p>
+
+                        <h2 class="fw-bold mb-0">
+                            {{ $totalMenu }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        🍜
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Total Kategori --}}
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <p class="text-muted mb-1">
+                            Total Kategori
+                        </p>
+
+                        <h2 class="fw-bold mb-0">
+                            {{ $totalKategori }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        📂
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Menu Tersedia --}}
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <p class="text-muted mb-1">
+                            Menu Tersedia
+                        </p>
+
+                        <h2 class="fw-bold text-success mb-0">
+                            {{ $menuTersedia }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        ✅
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Menu Habis --}}
+
+    <div class="col-md-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <p class="text-muted mb-1">
+                            Menu Habis
+                        </p>
+
+                        <h2 class="fw-bold text-danger mb-0">
+                            {{ $menuHabis }}
+                        </h2>
+
+                    </div>
+
+                    <div class="fs-1">
+                        ❌
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="col-md-4">
 
-<div class="card">
+{{-- MENU TERBARU --}}
 
-<div class="card-body">
+<div class="card border-0 shadow-sm">
 
-<h5>Menu Tersedia</h5>
+    <div class="card-header bg-white border-0 pt-4 px-4">
 
-<h1>
+        <div class="d-flex justify-content-between align-items-center">
 
-{{ $menuTersedia }}
+            <div>
 
-</h1>
+                <h4 class="fw-bold mb-1">
+                    🍜 Menu Terbaru
+                </h4>
 
-</div>
+                <p class="text-muted mb-0">
+                    5 menu yang terakhir ditambahkan
+                </p>
 
-</div>
+            </div>
 
-</div>
+            <a
+                href="{{ route('menu.index') }}"
+                class="btn btn-dark"
+            >
+                Lihat Semua
+            </a>
 
-<div class="col-md-4">
+        </div>
 
-<div class="card">
+    </div>
 
-<div class="card-body">
 
-<h5>Menu Habis</h5>
+    <div class="card-body px-4">
 
-<h1>
+        <div class="table-responsive">
 
-{{ $menuHabis }}
+            <table class="table align-middle">
 
-</h1>
+                <thead>
 
-</div>
+                    <tr>
 
-</div>
+                        <th>No</th>
 
-</div>
+                        <th>Nama Menu</th>
 
-</div>
+                        <th>Kategori</th>
 
-<br>
+                        <th>Harga</th>
 
-<div class="card">
+                        <th>Status</th>
 
-<div class="card-body">
+                    </tr>
 
-<h4>5 Menu Terbaru</h4>
+                </thead>
 
-<table class="table table-striped">
 
-<thead>
+                <tbody>
 
-<tr>
+                    @forelse($menuTerbaru as $menu)
 
-<th>No</th>
+                        <tr>
 
-<th>Nama</th>
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
 
-<th>Kategori</th>
+                            <td>
 
-<th>Harga</th>
+                                <strong>
+                                    {{ $menu->nama_menu }}
+                                </strong>
 
-<th>Status</th>
+                            </td>
 
-</tr>
+                            <td>
 
-</thead>
+                                <span class="badge bg-light text-dark">
 
-<tbody>
+                                    {{ $menu->kategori }}
 
-@forelse($menuTerbaru as $menu)
+                                </span>
 
-<tr>
+                            </td>
 
-<td>{{ $loop->iteration }}</td>
+                            <td>
 
-<td>{{ $menu->nama_menu }}</td>
+                                Rp {{ number_format($menu->harga, 0, ',', '.') }}
 
-<td>{{ $menu->kategori }}</td>
+                            </td>
 
-<td>Rp {{ number_format($menu->harga) }}</td>
+                            <td>
 
-<td>{{ ucfirst($menu->status) }}</td>
+                                @if($menu->status === 'tersedia')
 
-</tr>
+                                    <span class="badge bg-success">
+                                        Tersedia
+                                    </span>
 
-@empty
+                                @else
 
-<tr>
+                                    <span class="badge bg-danger">
+                                        Habis
+                                    </span>
 
-<td colspan="5">
+                                @endif
 
-Belum ada menu.
+                            </td>
 
-</td>
+                        </tr>
 
-</tr>
+                    @empty
 
-@endforelse
+                        <tr>
 
-</tbody>
+                            <td colspan="5" class="text-center py-4">
 
-</table>
+                                <div class="text-muted">
 
-</div>
+                                    <div class="fs-1">
+                                        🍜
+                                    </div>
+
+                                    Belum ada menu.
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
