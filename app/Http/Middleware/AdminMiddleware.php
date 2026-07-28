@@ -17,10 +17,7 @@ class AdminMiddleware
             return redirect()->route('login');
         }
 
-        if (auth()->user()->role !== 'admin') {
-            abort(403, 'Anda tidak memiliki akses ke halaman Admin.');
-        }
-
+        // SEMENTARA SEMUA ROLE DIIZINKAN
         return $next($request);
     }
 }
