@@ -56,7 +56,7 @@ body{
     <div class="sidebar">
 
         <h3 class="text-center text-white py-4">
-            🍜 Warmindo
+            🍜 Warkopmindo 43
         </h3>
 
         <a href="{{ route('dashboard') }}">
@@ -74,11 +74,22 @@ body{
             Kelola Kategori
         </a>
 
+        <a href="{{ route('customer.index') }}">
+            <i class="fa-solid fa-users"></i>
+            Kelola Customer
+        </a>
+
+        <a href="{{ route('report.index') }}">
+            <i class="fa-solid fa-chart-line"></i>
+            Laporan
+        </a>
+
         <form action="{{ route('logout') }}" method="POST">
 
             @csrf
 
-            <button class="btn btn-link text-white text-decoration-none w-100 text-start px-3 py-3">
+            <button
+                class="btn btn-link text-white text-decoration-none w-100 text-start px-3 py-3">
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -97,7 +108,7 @@ body{
             <div class="container-fluid">
 
                 <h4 class="mb-0">
-                    Halaman Admin Warmindo
+                    
                 </h4>
 
                 <span>
@@ -110,6 +121,56 @@ body{
 
         <div class="container mt-4">
 
+            @if(session('success'))
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+                    {{ session('success') }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            @endif
+
+            @if(session('error'))
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                    {{ session('error') }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            @endif
+
+            @if($errors->any())
+
+                <div class="alert alert-danger">
+
+                    <ul class="mb-0">
+
+                        @foreach($errors->all() as $error)
+
+                            <li>{{ $error }}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @endif
+
             @yield('content')
 
         </div>
@@ -117,6 +178,26 @@ body{
     </div>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+setTimeout(function(){
+
+    let alert = document.querySelector('.alert');
+
+    if(alert){
+
+        let bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+
+        bsAlert.close();
+
+    }
+
+},3000);
+
+</script>
 
 </body>
 </html>

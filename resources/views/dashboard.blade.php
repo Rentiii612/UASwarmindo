@@ -10,7 +10,7 @@
         </h2>
 
         <p class="text-muted mb-0">
-            Selamat datang di Admin Panel Warmindo 👑
+            Selamat datang di Admin Panel Warkopmindo43👑
         </p>
     </div>
 
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="fs-1">
-                        🍜
+                        
                     </div>
 
                 </div>
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="fs-1">
-                        📂
+                        
                     </div>
 
                 </div>
@@ -114,7 +114,7 @@
                     </div>
 
                     <div class="fs-1">
-                        ✅
+                        
                     </div>
 
                 </div>
@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="fs-1">
-                        ❌
+                        
                     </div>
 
                 </div>

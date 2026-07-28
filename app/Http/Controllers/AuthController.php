@@ -19,18 +19,31 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'role' => ['required', 'in:admin,kasir'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt([
+            'email' => $credentials['email'],
+            'password' => $credentials['password'],
+            'role' => $credentials['role'],
+        ])) {
 
             $request->session()->regenerate();
 
-            return redirect('/dashboard');
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('dashboard');
+            }
+
+            if (Auth::user()->role === 'kasir') {
+                return redirect()->route('kasir.dashboard');
+            }
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau Password salah!',
-        ]);
+        return back()
+            ->withInput($request->only('email', 'role'))
+            ->withErrors([
+                'email' => 'Email, password, atau pilihan role tidak sesuai.',
+            ]);
     }
 
     // Logout
@@ -42,6 +55,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

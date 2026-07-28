@@ -8,6 +8,7 @@ use App\Http\Controllers\KasirController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -26,23 +27,48 @@ Route::post('/login', [AuthController::class, 'process'])->name('login.process')
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
     // =========================
-    // MENU
+    // DASHBOARD
     // =========================
 
-    Route::resource('menu', MenuController::class)->except(['show']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+
+    // =========================
+    // MENU ADMIN
+    // =========================
+
+    Route::middleware('admin')->group(function () {
+
+    Route::resource('menu', MenuController::class)
+        ->except(['show']);
+
+    Route::resource('kategori', KategoriController::class)
+        ->except(['show']);
+
+    Route::get('/report', [ReportController::class, 'index'])
+        ->name('report.index');
 
     // =========================
     // KATEGORI
     // =========================
 
-    Route::resource('kategori', KategoriController::class)->except(['show']);
+    Route::resource('kategori', KategoriController::class)
+        ->except(['show']);
+
+    // =========================
+    // LAPORAN ADMIN
+    // =========================
+
+    Route::get('/report', [ReportController::class, 'index'])
+        ->name('report.index');
 
     // =========================
     // CUSTOMER
@@ -87,5 +113,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/history', [KasirController::class, 'history'])
             ->name('kasir.history');
     });
+
+});
 
 });
