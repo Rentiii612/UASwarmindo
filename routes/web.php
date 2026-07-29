@@ -101,7 +101,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/customer/tracking/{order}', [CustomerController::class, 'trackingDetail'])
         ->name('customer.tracking.detail');
-        
+
+    Route::get('/customer/payment/cash/{order}', [CustomerController::class, 'paymentCash'])
+        ->name('customer.payment.cash');
+
+    Route::get('/customer/payment/qris/{order}', [CustomerController::class, 'paymentQris'])
+        ->name('customer.payment.qris');
+
     // =========================
     // KASIR
     // =========================
