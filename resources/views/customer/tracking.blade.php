@@ -6,39 +6,54 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <h3 class="fw-bold">
-            Tracking Pesanan
-        </h3>
+        <div>
 
-        <a href="{{ route('customer.index') }}" class="btn btn-success">
+            <h2 class="fw-bold mb-1">
+                Tracking Pesanan
+            </h2>
+
+            <small class="text-muted">
+                Pantau status pesanan yang telah dibuat.
+            </small>
+
+        </div>
+
+        <a href="{{ route('customer.index') }}"
+           class="btn btn-success">
+
             ← Kembali ke Menu
+
         </a>
 
     </div>
 
     @if($orders->count())
 
-    <div class="card shadow-sm">
+    <div class="card shadow border-0 rounded-4">
 
         <div class="card-body p-0">
 
-            <table class="table table-hover mb-0 align-middle">
+            <table class="table table-hover align-middle mb-0">
 
                 <thead class="table-success">
 
-                    <tr>
+                <tr>
 
-                        <th>No Pesanan</th>
+                    <th>#</th>
 
-                        <th>Meja</th>
+                    <th>Nomor Pesanan</th>
 
-                        <th>Total</th>
+                    <th>Meja</th>
 
-                        <th>Status</th>
+                    <th>Pembayaran</th>
 
-                        <th width="120">Aksi</th>
+                    <th>Total</th>
 
-                    </tr>
+                    <th>Status</th>
+
+                    <th>Aksi</th>
+
+                </tr>
 
                 </thead>
 
@@ -50,17 +65,49 @@
 
                     <td>
 
-                        <strong>{{ $order->order_number }}</strong>
+                        {{ $loop->iteration }}
 
                     </td>
 
                     <td>
 
-                        {{ $order->table_number }}
+                        <strong>
+
+                            {{ $order->order_number }}
+
+                        </strong>
 
                     </td>
 
                     <td>
+
+                         {{ $order->table_number }}
+
+                    </td>
+
+                    <td>
+
+                        @if($order->payment_method == 'cash')
+
+                            <span class="badge bg-secondary">
+
+                                Cash
+
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-info text-dark">
+
+                                QRIS
+
+                            </span>
+
+                        @endif
+
+                    </td>
+
+                    <td class="fw-bold text-success">
 
                         Rp {{ number_format($order->total_amount,0,',','.') }}
 
@@ -71,25 +118,33 @@
                         @if($order->status == 'pending')
 
                             <span class="badge bg-warning text-dark">
+
                                 Pending
+
                             </span>
 
                         @elseif($order->status == 'processing')
 
                             <span class="badge bg-primary">
+
                                 Diproses
+
                             </span>
 
                         @elseif($order->status == 'completed')
 
                             <span class="badge bg-success">
-                                Selesai
+
+                                ✅ Selesai
+
                             </span>
 
                         @else
 
                             <span class="badge bg-danger">
-                                Dibatalkan
+
+                                ❌ Dibatalkan
+
                             </span>
 
                         @endif
@@ -99,9 +154,9 @@
                     <td>
 
                         <a href="{{ route('customer.tracking.detail',$order->id) }}"
-                           class="btn btn-success btn-sm">
+                           class="btn btn-outline-success btn-sm">
 
-                            Detail
+                            Lihat Detail
 
                         </a>
 
@@ -119,7 +174,7 @@
 
     </div>
 
-    <div class="mt-3">
+    <div class="mt-4">
 
         {{ $orders->links() }}
 
@@ -127,9 +182,36 @@
 
     @else
 
-    <div class="alert alert-info">
+    <div class="card shadow border-0 rounded-4">
 
-        Belum ada pesanan.
+        <div class="card-body text-center py-5">
+
+            <div style="font-size:70px;">
+
+                📭
+
+            </div>
+
+            <h4 class="mt-3">
+
+                Belum Ada Pesanan
+
+            </h4>
+
+            <p class="text-muted">
+
+                Silakan lakukan pemesanan terlebih dahulu.
+
+            </p>
+
+            <a href="{{ route('customer.index') }}"
+               class="btn btn-success">
+
+                Mulai Pesan
+
+            </a>
+
+        </div>
 
     </div>
 
