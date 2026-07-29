@@ -10,20 +10,29 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReportController;
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+/*
+|--------------------------------------------------------------------------
+| LANDING PAGE CUSTOMER
+|--------------------------------------------------------------------------
+*/
 
-// =========================
-// LOGIN
-// =========================
+Route::get('/', [CustomerController::class, 'landing'])
+    ->name('customer.landing');
+
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'process'])->name('login.process');
 
-// =========================
-// ROUTE YANG MEMBUTUHKAN LOGIN
-// =========================
+/*
+|--------------------------------------------------------------------------
+| ROUTE SETELAH LOGIN
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
 
@@ -42,94 +51,82 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     // =========================
-    // MENU ADMIN
+    // ADMIN
     // =========================
 
     Route::middleware('admin')->group(function () {
 
-    Route::resource('menu', MenuController::class)
-        ->except(['show']);
+        Route::resource('menu', MenuController::class)
+            ->except(['show']);
 
-    Route::resource('kategori', KategoriController::class)
-        ->except(['show']);
+        Route::resource('kategori', KategoriController::class)
+            ->except(['show']);
 
-    Route::get('/report', [ReportController::class, 'index'])
-        ->name('report.index');
+        Route::get('/report', [ReportController::class, 'index'])
+            ->name('report.index');
 
-    // =========================
-    // KATEGORI
-    // =========================
+        // =========================
+        // CUSTOMER
+        // =========================
 
-    Route::resource('kategori', KategoriController::class)
-        ->except(['show']);
+        Route::get('/customer', [CustomerController::class, 'index'])
+            ->name('customer.index');
 
-    // =========================
-    // LAPORAN ADMIN
-    // =========================
+        Route::get('/customer/menu/{menu}', [CustomerController::class, 'show'])
+            ->name('customer.menu.show');
 
-    Route::get('/report', [ReportController::class, 'index'])
-        ->name('report.index');
+        Route::post('/customer/cart/{menu}', [CustomerController::class, 'addToCart'])
+            ->name('customer.cart.add');
 
-    // =========================
-    // CUSTOMER
-    // =========================
+        Route::get('/customer/cart', [CustomerController::class, 'cart'])
+            ->name('customer.cart');
 
-    Route::get('/customer', [CustomerController::class, 'index'])
-        ->name('customer.index');
+        Route::put('/customer/cart/{id}', [CustomerController::class, 'updateCart'])
+            ->name('customer.cart.update');
 
-    Route::get('/customer/menu/{menu}', [CustomerController::class, 'show'])
-        ->name('customer.menu.show');
+        Route::delete('/customer/cart/{id}', [CustomerController::class, 'removeFromCart'])
+            ->name('customer.cart.remove');
 
-    Route::post('/customer/cart/{menu}', [CustomerController::class, 'addToCart'])
-        ->name('customer.cart.add');
-
-    Route::get('/customer/cart', [CustomerController::class, 'cart'])
-        ->name('customer.cart');
-
-    Route::put('/customer/cart/{id}', [CustomerController::class, 'updateCart'])
-        ->name('customer.cart.update');
-
-    Route::delete('/customer/cart/{id}', [CustomerController::class, 'removeFromCart'])
-        ->name('customer.cart.remove');
         Route::get('/customer/checkout', [CustomerController::class, 'checkout'])
-        ->name('customer.checkout');
+            ->name('customer.checkout');
 
-    Route::post('/customer/checkout', [CustomerController::class, 'processCheckout'])
-        ->name('customer.processCheckout');
-    Route::get('/customer/tracking', [CustomerController::class, 'tracking'])
-        ->name('customer.tracking');
+        Route::post('/customer/checkout', [CustomerController::class, 'processCheckout'])
+            ->name('customer.processCheckout');
 
-    Route::get('/customer/tracking/{order}', [CustomerController::class, 'trackingDetail'])
-        ->name('customer.tracking.detail');
+        Route::get('/customer/tracking', [CustomerController::class, 'tracking'])
+            ->name('customer.tracking');
 
-    Route::get('/customer/payment/cash/{order}', [CustomerController::class, 'paymentCash'])
-        ->name('customer.payment.cash');
+        Route::get('/customer/tracking/{order}', [CustomerController::class, 'trackingDetail'])
+            ->name('customer.tracking.detail');
 
-    Route::get('/customer/payment/qris/{order}', [CustomerController::class, 'paymentQris'])
-        ->name('customer.payment.qris');
+        Route::get('/customer/payment/cash/{order}', [CustomerController::class, 'paymentCash'])
+            ->name('customer.payment.cash');
 
-    // =========================
-    // KASIR
-    // =========================
+        Route::get('/customer/payment/qris/{order}', [CustomerController::class, 'paymentQris'])
+            ->name('customer.payment.qris');
 
-    Route::prefix('kasir')->group(function () {
+        // =========================
+        // KASIR
+        // =========================
 
-        Route::get('/dashboard', [KasirController::class, 'dashboard'])
-            ->name('kasir.dashboard');
+        Route::prefix('kasir')->group(function () {
 
-        Route::get('/orders', [KasirController::class, 'orders'])
-            ->name('kasir.orders');
+            Route::get('/dashboard', [KasirController::class, 'dashboard'])
+                ->name('kasir.dashboard');
 
-        Route::get('/payment/{id}', [PaymentController::class, 'index'])
-            ->name('kasir.payment');
+            Route::get('/orders', [KasirController::class, 'orders'])
+                ->name('kasir.orders');
 
-        Route::post('/payment/{id}', [PaymentController::class, 'store'])
-            ->name('kasir.payment.store');
+            Route::get('/payment/{id}', [PaymentController::class, 'index'])
+                ->name('kasir.payment');
 
-        Route::get('/history', [KasirController::class, 'history'])
-            ->name('kasir.history');
+            Route::post('/payment/{id}', [PaymentController::class, 'store'])
+                ->name('kasir.payment.store');
+
+            Route::get('/history', [KasirController::class, 'history'])
+                ->name('kasir.history');
+        });
+
     });
-
-});
 
 });
