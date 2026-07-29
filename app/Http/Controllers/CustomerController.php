@@ -34,8 +34,8 @@ class CustomerController extends Controller
             $query->where(function ($q) use ($search) {
 
                 $q->where('nama_menu', 'like', '%' . $search . '%')
-                  ->orWhere('kategori', 'like', '%' . $search . '%')
-                  ->orWhere('deskripsi', 'like', '%' . $search . '%');
+                    ->orWhere('kategori', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
 
             });
 
@@ -149,6 +149,7 @@ class CustomerController extends Controller
         $request->validate([
             'nama_pelanggan' => 'required|string|max:100',
             'nomor_meja' => 'required|string|max:20',
+            'payment_method' => 'required|in:cash,qris',
             'catatan' => 'nullable|string',
         ]);
 
@@ -172,6 +173,7 @@ class CustomerController extends Controller
                 'table_number' => $request->nomor_meja,
                 'total_amount' => $total,
                 'status' => 'pending',
+                'payment_method' => $request->payment_method,
                 'notes' => "Pelanggan : {$request->nama_pelanggan}\nCatatan : " . ($request->catatan ?: '-')
             ]);
 
@@ -191,9 +193,15 @@ class CustomerController extends Controller
 
             session()->forget('cart');
 
-            return redirect()
-                ->route('customer.tracking.detail', $order->id)
-                ->with('success', 'Pesanan berhasil dibuat.');
+            // Jika QRIS
+            if ($request->payment_method == 'qris') {
+
+                return redirect()->route('customer.payment.qris', $order->id);
+
+            }
+
+            // Jika Cash
+            return redirect()->route('customer.payment.cash', $order->id);
 
         } catch (\Exception $e) {
 
@@ -216,5 +224,23 @@ class CustomerController extends Controller
         $order->load('items.menu');
 
         return view('customer.tracking-detail', compact('order'));
+    }
+
+    // ===========================
+    // HALAMAN PEMBAYARAN CASH
+    // ===========================
+
+    public function paymentCash(Order $order)
+    {
+        return view('customer.payment-cash', compact('order'));
+    }
+
+    // ===========================
+    // HALAMAN PEMBAYARAN QRIS
+    // ===========================
+
+    public function paymentQris(Order $order)
+    {
+        return view('customer.payment-qris', compact('order'));
     }
 }
