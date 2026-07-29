@@ -11,6 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
+    // ===========================
+    // LANDING PAGE CUSTOMER
+    // ===========================
+
+    public function landing()
+    {
+        return view('customer.landing');
+    }
+}
+    // ===========================
+    // HALAMAN MENU CUSTOMER
+    // ===========================
+class CustomerController extends Controller
+{
     public function index(Request $request)
     {
         $kategoriId = $request->get('kategori');
