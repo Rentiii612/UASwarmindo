@@ -91,7 +91,17 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/customer/cart/{id}', [CustomerController::class, 'removeFromCart'])
         ->name('customer.cart.remove');
+        Route::get('/customer/checkout', [CustomerController::class, 'checkout'])
+        ->name('customer.checkout');
 
+    Route::post('/customer/checkout', [CustomerController::class, 'processCheckout'])
+        ->name('customer.processCheckout');
+    Route::get('/customer/tracking', [CustomerController::class, 'tracking'])
+        ->name('customer.tracking');
+
+    Route::get('/customer/tracking/{order}', [CustomerController::class, 'trackingDetail'])
+        ->name('customer.tracking.detail');
+        
     // =========================
     // KASIR
     // =========================

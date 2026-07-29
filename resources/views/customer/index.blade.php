@@ -18,38 +18,51 @@
 
     <style>
 
-        body {
-            background: #f8f7f4;
+        body{
+            background:#f8f7f4;
         }
 
-        .navbar {
-            background: #ffffff;
+        .navbar{
+            background:#ffffff;
         }
 
-        .hero {
-            background: #212529;
-            color: white;
-            border-radius: 24px;
-            padding: 45px;
+        .hero{
+            background:linear-gradient(135deg,#198754,#157347);
+            color:white;
+            border-radius:25px;
+            padding:45px;
         }
 
-        .menu-card {
-            border: none;
-            border-radius: 20px;
-            transition: .2s;
+        .menu-card{
+            border:none;
+            border-radius:18px;
+            transition:.25s;
         }
 
-        .menu-card:hover {
-            transform: translateY(-4px);
+        .menu-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 10px 20px rgba(0,0,0,.12);
         }
 
-        .category-btn {
-            border-radius: 50px;
+        .category-btn{
+            border-radius:50px;
         }
 
-        .price {
-            font-weight: 700;
-            font-size: 18px;
+        .price{
+            font-size:19px;
+            font-weight:bold;
+            color:#198754;
+        }
+
+        .search-box{
+            border-radius:50px;
+            padding:12px 20px;
+        }
+
+        .badge-status{
+            position:absolute;
+            right:18px;
+            top:18px;
         }
 
     </style>
@@ -70,32 +83,47 @@
 
         </a>
 
-        <a
-            href="{{ route('customer.cart') }}"
-            class="btn btn-dark">
+        <div class="d-flex gap-2">
 
-            <i class="fa-solid fa-cart-shopping"></i>
+            <a
+                href="{{ route('customer.tracking') }}"
+                class="btn btn-warning">
 
-            Keranjang
+                <i class="fa-solid fa-receipt"></i>
 
-            @php
-                $cartCount = collect(session('cart', []))->sum('jumlah');
-            @endphp
+                Tracking
 
-            @if($cartCount > 0)
+            </a>
 
-                <span class="badge bg-danger">
-                    {{ $cartCount }}
-                </span>
+            <a
+                href="{{ route('customer.cart') }}"
+                class="btn btn-dark">
 
-            @endif
+                <i class="fa-solid fa-cart-shopping"></i>
 
-        </a>
+                Keranjang
+
+                @php
+                    $cartCount = collect(session('cart', []))->sum('jumlah');
+                @endphp
+
+                @if($cartCount>0)
+
+                    <span class="badge bg-danger">
+
+                        {{ $cartCount }}
+
+                    </span>
+
+                @endif
+
+            </a>
+
+        </div>
 
     </div>
 
 </nav>
-
 
 <div class="container py-4">
 
@@ -103,51 +131,111 @@
 
     <div class="hero mb-4">
 
-        <h1 class="fw-bold">
-            Selamat Datang di Warmindo 🍜
-        </h1>
+        <div class="row align-items-center">
 
-        <p class="mb-0">
-            Pilih makanan dan minuman favoritmu.
-        </p>
+            <div class="col-md-8">
+
+                <h1 class="fw-bold">
+
+                    Selamat Datang di Warkopmindo 43 🍜
+
+                </h1>
+
+                <p class="mb-0">
+
+                    Nikmati berbagai pilihan makanan dan minuman favoritmu.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-end">
+
+                <i class="fa-solid fa-bowl-food"
+                   style="font-size:70px;"></i>
+
+            </div>
+
+        </div>
 
     </div>
-
 
     {{-- ALERT --}}
 
     @if(session('success'))
 
         <div class="alert alert-success">
+
             {{ session('success') }}
+
         </div>
 
     @endif
-
 
     @if(session('error'))
 
         <div class="alert alert-danger">
+
             {{ session('error') }}
+
         </div>
 
     @endif
 
+    {{-- SEARCH --}}
+
+    <form
+        action="{{ route('customer.index') }}"
+        method="GET"
+        class="mb-4">
+
+        @if($kategoriId)
+
+            <input
+                type="hidden"
+                name="kategori"
+                value="{{ $kategoriId }}">
+
+        @endif
+
+        <div class="input-group">
+
+            <input
+                type="text"
+                name="search"
+                class="form-control search-box"
+                placeholder="Cari menu..."
+
+                value="{{ $search ?? '' }}">
+
+            <button
+                class="btn btn-success">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                Cari
+
+            </button>
+
+        </div>
+
+    </form>
 
     {{-- KATEGORI --}}
 
     <div class="mb-4">
 
-        <h4 class="fw-bold mb-3">
+        <h4 class="fw-bold">
+
             Kategori
+
         </h4>
 
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex flex-wrap gap-2 mt-3">
 
             <a
                 href="{{ route('customer.index') }}"
-                class="btn category-btn
-                    {{ !$kategoriId ? 'btn-dark' : 'btn-outline-dark' }}">
+                class="btn category-btn {{ !$kategoriId ? 'btn-dark' : 'btn-outline-dark' }}">
 
                 Semua
 
@@ -156,11 +244,12 @@
             @foreach($kategoris as $kategori)
 
                 <a
-                    href="{{ route('customer.index', ['kategori' => $kategori->id]) }}"
+                    href="{{ route('customer.index',[
+                        'kategori'=>$kategori->id,
+                        'search'=>$search
+                    ]) }}"
                     class="btn category-btn
-                        {{ $kategoriId == $kategori->id
-                            ? 'btn-dark'
-                            : 'btn-outline-dark' }}">
+                    {{ $kategoriId==$kategori->id ? 'btn-dark':'btn-outline-dark' }}">
 
                     {{ $kategori->nama_kategori }}
 
@@ -172,86 +261,140 @@
 
     </div>
 
-
     {{-- MENU --}}
 
     <div class="row g-4">
-
         @forelse($menus as $menu)
 
-            <div class="col-md-6 col-lg-4">
+<div class="col-md-6 col-lg-4">
 
-                <div class="card menu-card shadow-sm h-100">
+    <div class="card menu-card shadow-sm h-100 position-relative">
 
-                    <div class="card-body p-4">
+        <span class="badge bg-success badge-status">
 
-                        <span class="badge bg-light text-dark mb-3">
+            Tersedia
 
-                            {{ $menu->kategori }}
+        </span>
 
-                        </span>
+        <div class="card-body d-flex flex-column p-4">
 
-                        <h5 class="fw-bold">
-                            {{ $menu->nama_menu }}
-                        </h5>
+            <span class="badge bg-light text-dark mb-3 align-self-start">
 
-                        <p class="text-muted">
+                {{ $menu->kategori }}
 
-                            {{ $menu->deskripsi ?? 'Menu favorit Warmindo.' }}
+            </span>
 
-                        </p>
+            <h5 class="fw-bold">
 
-                        <div class="d-flex justify-content-between align-items-center mt-4">
+                {{ $menu->nama_menu }}
 
-                            <span class="price">
+            </h5>
 
-                                Rp {{ number_format($menu->harga, 0, ',', '.') }}
+            <p class="text-muted flex-grow-1">
 
-                            </span>
+                {{ $menu->deskripsi ?: 'Menu favorit Warmindo.' }}
 
-                            <a
-                                href="{{ route('customer.menu.show', $menu) }}"
-                                class="btn btn-dark">
+            </p>
 
-                                Lihat
+            <div class="mb-3">
 
-                            </a>
+                <span class="price">
 
-                        </div>
+                    Rp {{ number_format($menu->harga,0,',','.') }}
 
-                    </div>
-
-                </div>
+                </span>
 
             </div>
 
-        @empty
+            <div class="d-grid gap-2">
 
-            <div class="col-12">
+                <a
+                    href="{{ route('customer.menu.show',$menu) }}"
+                    class="btn btn-outline-success">
 
-                <div class="text-center py-5">
+                    <i class="fa-solid fa-eye"></i>
 
-                    <div class="display-3">
-                        🍜
-                    </div>
+                    Lihat Detail
 
-                    <h4 class="mt-3">
-                        Belum ada menu
-                    </h4>
+                </a>
 
-                    <p class="text-muted">
-                        Menu untuk kategori ini belum tersedia.
-                    </p>
+                <form
+                    action="{{ route('customer.cart.add',$menu) }}"
+                    method="POST">
 
-                </div>
+                    @csrf
+
+                    <input
+                        type="hidden"
+                        name="jumlah"
+                        value="1">
+
+                    <button
+                        class="btn btn-success w-100">
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Tambah ke Keranjang
+
+                    </button>
+
+                </form>
 
             </div>
 
-        @endforelse
+        </div>
 
     </div>
 
 </div>
 
+@empty
+
+<div class="col-12">
+
+    <div class="card shadow">
+
+        <div class="card-body text-center py-5">
+
+            <div class="display-1">
+
+                🍜
+
+            </div>
+
+            <h3 class="mt-3">
+
+                Menu Tidak Ditemukan
+
+            </h3>
+
+            <p class="text-muted">
+
+                Coba gunakan kata kunci lain atau pilih kategori yang berbeda.
+
+            </p>
+
+            <a
+                href="{{ route('customer.index') }}"
+                class="btn btn-success">
+
+                Lihat Semua Menu
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endforelse
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
-</html> 
+</html>
