@@ -4,169 +4,223 @@
 
 <div class="container py-4">
 
-    <div class="card shadow">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <div class="card-header bg-success text-white">
+        <h2 class="fw-bold text-success">
+            Detail Pesanan
+        </h2>
 
-            <h4 class="mb-0">
-                Detail Pesanan
-            </h4>
+        <a href="{{ route('customer.tracking') }}"
+            class="btn btn-outline-success">
 
-        </div>
+            ← Kembali
 
-        <div class="card-body">
+        </a>
 
-            <div class="row mb-4">
+    </div>
+
+    <div class="card shadow border-0 rounded-4">
+
+        <div class="card-body p-4">
+
+            <div class="row">
 
                 <div class="col-md-6">
 
-                    <p>
-                        <strong>Nomor Pesanan</strong><br>
-                        {{ $order->order_number }}
-                    </p>
+                    <h5 class="fw-bold mb-3">
+                        Informasi Pesanan
+                    </h5>
 
-                    <p>
-                        <strong>Nomor Meja</strong><br>
-                        {{ $order->table_number }}
-                    </p>
+                    <table class="table table-borderless">
+
+                        <tr>
+                            <td width="170"><strong>No Pesanan</strong></td>
+                            <td>{{ $order->order_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Nomor Meja</strong></td>
+                            <td>{{ $order->table_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Tanggal</strong></td>
+                            <td>{{ $order->created_at->format('d M Y H:i') }}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Metode Bayar</strong></td>
+                            <td>
+
+                                @if($order->payment_method=="cash")
+
+                                    <span class="badge bg-primary">
+                                        Cash
+                                    </span>
+
+                                @elseif($order->payment_method=="qris")
+
+                                    <span class="badge bg-success">
+                                        QRIS
+                                    </span>
+
+                                @else
+
+                                    -
+
+                                @endif
+
+                            </td>
+                        </tr>
+
+                    </table>
 
                 </div>
 
                 <div class="col-md-6">
 
-                    <p>
-                        <strong>Status</strong><br>
+                    <h5 class="fw-bold mb-3">
+                        Status Pesanan
+                    </h5>
 
-                        @if($order->status=='pending')
+                    @if($order->status=="pending")
 
-                            <span class="badge bg-warning text-dark">
-                                Pending
-                            </span>
+                        <span class="badge bg-warning text-dark fs-6">
+                            Menunggu Konfirmasi
+                        </span>
 
-                        @elseif($order->status=='processing')
+                    @elseif($order->status=="processing")
 
-                            <span class="badge bg-primary">
-                                Diproses
-                            </span>
+                        <span class="badge bg-primary fs-6">
+                            Sedang Diproses
+                        </span>
 
-                        @elseif($order->status=='completed')
+                    @elseif($order->status=="completed")
 
-                            <span class="badge bg-success">
-                                Selesai
-                            </span>
+                        <span class="badge bg-success fs-6">
+                            Pesanan Selesai
+                        </span>
 
-                        @else
+                    @else
 
-                            <span class="badge bg-danger">
-                                Dibatalkan
-                            </span>
+                        <span class="badge bg-danger fs-6">
+                            Dibatalkan
+                        </span>
 
-                        @endif
+                    @endif
 
-                    </p>
+                    <div class="mt-4">
 
-                    <p>
-                        <strong>Tanggal Pesanan</strong><br>
-                        {{ $order->created_at->format('d M Y H:i') }}
-                    </p>
+                        <strong>Catatan</strong>
+
+                        <div class="border rounded-3 p-3 mt-2 bg-light">
+
+                            {!! nl2br(e($order->notes ?? '-')) !!}
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <hr>
+            <hr class="my-4">
 
-            <h5 class="mb-3">
+            <h4 class="fw-bold mb-3">
+
                 Daftar Menu
-            </h5>
 
-            <table class="table table-bordered align-middle">
+            </h4>
 
-                <thead class="table-light">
+            <div class="table-responsive">
 
-                    <tr>
+                <table class="table table-hover align-middle">
 
-                        <th>Menu</th>
+                    <thead class="table-success">
 
-                        <th width="90">Qty</th>
+                        <tr>
 
-                        <th>Harga</th>
+                            <th>Menu</th>
 
-                        <th>Subtotal</th>
+                            <th width="90">Qty</th>
 
-                    </tr>
+                            <th width="150">Harga</th>
 
-                </thead>
+                            <th width="170">Subtotal</th>
 
-                <tbody>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
 
                     @foreach($order->items as $item)
 
-                    <tr>
+                        <tr>
 
-                        <td>
+                            <td>
 
-                            {{ $item->menu->nama_menu }}
+                                {{ $item->menu->nama_menu }}
 
-                        </td>
+                            </td>
 
-                        <td>
+                            <td>
 
-                            {{ $item->quantity }}
+                                {{ $item->quantity }}
 
-                        </td>
+                            </td>
 
-                        <td>
+                            <td>
 
-                            Rp {{ number_format($item->price,0,',','.') }}
+                                Rp {{ number_format($item->price,0,',','.') }}
 
-                        </td>
+                            </td>
 
-                        <td>
+                            <td>
 
-                            Rp {{ number_format($item->subtotal,0,',','.') }}
+                                <strong>
 
-                        </td>
+                                    Rp {{ number_format($item->subtotal,0,',','.') }}
 
-                    </tr>
+                                </strong>
+
+                            </td>
+
+                        </tr>
 
                     @endforeach
 
-                </tbody>
+                    </tbody>
 
-            </table>
-
-            <div class="text-end mt-4">
-
-                <h4>
-
-                    Total Bayar
-
-                </h4>
-
-                <h3 class="text-success">
-
-                    Rp {{ number_format($order->total_amount,0,',','.') }}
-
-                </h3>
+                </table>
 
             </div>
 
-            <div class="mt-4 d-flex justify-content-between">
+            <div class="card bg-success text-white mt-4">
 
-                <a href="{{ route('customer.tracking') }}"
-                   class="btn btn-secondary">
+                <div class="card-body d-flex justify-content-between align-items-center">
 
-                    ← Kembali
+                    <div>
 
-                </a>
+                        <small>Total Pembayaran</small>
 
-                <a href="{{ route('customer.index') }}"
-                   class="btn btn-success">
+                        <h3 class="mb-0">
 
-                    Pesan Lagi
+                            Rp {{ number_format($order->total_amount,0,',','.') }}
 
-                </a>
+                        </h3>
+
+                    </div>
+
+                    <a href="{{ route('customer.index') }}"
+                        class="btn btn-light">
+
+                        Pesan Lagi
+
+                    </a>
+
+                </div>
 
             </div>
 
