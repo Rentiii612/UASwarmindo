@@ -54,15 +54,26 @@ class CustomerController extends Controller
 
         }
 
-        $menus = $query->latest()->get();
+       $menus = $query->latest()->get();
 
         $kategoris = Kategori::orderBy('nama_kategori')->get();
+
+        /*
+        |--------------------------------------------------------------------------
+        | MENU FAVORIT
+        |--------------------------------------------------------------------------
+        */
+
+        $favoritMenus = Menu::whereRaw('LOWER(status)=?', ['tersedia'])
+            ->take(4)
+            ->get();
 
         return view('customer.index', compact(
             'menus',
             'kategoris',
             'kategoriId',
-            'search'
+            'search',
+            'favoritMenus'
         ));
     }
 
