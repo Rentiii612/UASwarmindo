@@ -38,4 +38,26 @@ class KasirController extends Controller
 
         return view('kasir.history', compact('orders'));
     }
+
+    public function laporan()
+{
+    $orders = Order::with(['items', 'payment'])
+        ->latest()
+        ->get();
+
+    $totalPesanan = $orders->count();
+
+    $totalPendapatan = $orders->sum('total_amount');
+
+    $menuTerjual = $orders->sum(function ($order) {
+        return $order->total_item;
+    });
+
+    return view('kasir.laporan', compact(
+        'orders',
+        'totalPesanan',
+        'totalPendapatan',
+        'menuTerjual'
+    ));
+}
 }
