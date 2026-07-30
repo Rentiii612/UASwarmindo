@@ -14,9 +14,6 @@ use App\Http\Controllers\ReportController;
 |--------------------------------------------------------------------------
 | HALAMAN AWAL
 |--------------------------------------------------------------------------
-|
-| QR Code cukup diarahkan ke /customer
-|
 */
 
 Route::get('/', function () {
@@ -67,7 +64,7 @@ Route::get('/customer/payment/qris/{order}', [CustomerController::class, 'paymen
 
 /*
 |--------------------------------------------------------------------------
-| LOGIN ADMIN & KASIR
+| LOGIN
 |--------------------------------------------------------------------------
 */
 
@@ -107,6 +104,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/report', [ReportController::class, 'index'])
             ->name('report.index');
+
     });
 
     /*
@@ -131,6 +129,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/history', [KasirController::class, 'history'])
             ->name('kasir.history');
+
+        // ===== FITUR BARU =====
+        Route::get('/laporan', [KasirController::class, 'laporan'])
+            ->name('kasir.laporan');
+
     });
 
 });
