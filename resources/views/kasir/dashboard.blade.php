@@ -299,18 +299,6 @@
 
     </div>
 
-    <div class="card purple">
-
-        <div class="card-icon">💰</div>
-
-        <h3>Pendapatan Hari Ini</h3>
-
-        <div class="number" style="font-size:24px">
-            Rp 0
-        </div>
-
-    </div>
-
 </div>
 
             </div>
