@@ -182,6 +182,36 @@
 
     @endif
 
+    {{-- PROMO --}}
+
+<div class="alert alert-warning border-0 shadow-sm mb-4">
+
+    <div class="row align-items-center">
+
+        <div class="col-md-9">
+
+            <h5 class="fw-bold mb-1">
+                🎉 Promo Hari Ini
+            </h5>
+
+            <p class="mb-0">
+                Gratis Es Teh untuk pembelian minimal Rp30.000.
+            </p>
+
+        </div>
+
+        <div class="col-md-3 text-end">
+
+            <span class="badge bg-danger fs-6">
+                PROMO
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
     {{-- SEARCH --}}
 
     <form
