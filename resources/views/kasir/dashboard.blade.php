@@ -96,9 +96,9 @@
         }
 
         .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
         }
 
         .card {
@@ -204,19 +204,35 @@
 
         <nav class="menu">
 
-            <a href="{{ route('kasir.dashboard') }}" class="active">
-                🏠 Dashboard
-            </a>
+    <a href="{{ route('kasir.dashboard') }}"
+       class="{{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+        🏠 Dashboard
+    </a>
 
-            <a href="{{ route('kasir.orders') }}">
-                🧾 Pesanan
-            </a>
+    <a href="{{ route('kasir.orders') }}"
+       class="{{ request()->routeIs('kasir.orders') ? 'active' : '' }}">
+        🧾 Pesanan
+    </a>
 
-            <a href="{{ route('kasir.history') }}">
-                📊 Riwayat
-            </a>
+    <a href="{{ route('kasir.history') }}"
+       class="{{ request()->routeIs('kasir.history') ? 'active' : '' }}">
+        📊 Riwayat
+    </a>
 
-        </nav>
+    <a href="{{ route('kasir.laporan') }}"
+       class="{{ request()->routeIs('kasir.laporan') ? 'active' : '' }}">
+        📄 Laporan
+    </a>
+
+    <form action="{{ route('logout') }}" method="POST" style="margin-top:20px;">
+        @csrf
+        <button type="submit"
+                style="width:100%;padding:14px;border:none;border-radius:14px;background:#ff6b81;color:white;cursor:pointer;font-size:15px;">
+            🚪 Logout
+        </button>
+    </form>
+
+</nav>
 
     </aside>
 
@@ -247,19 +263,55 @@
 
         <div class="cards">
 
-            <div class="card pink">
+    <div class="card pink">
 
-                <div class="card-icon">
-                    🧾
-                </div>
+        <div class="card-icon">🧾</div>
 
-                <h3>Pesanan Baru</h3>
+        <h3>Pesanan Baru</h3>
 
-                <div class="number">
-                    {{ $pesananBaru }}
-                </div>
+        <div class="number">
+            {{ $pesananBaru }}
+        </div>
 
-            </div>
+    </div>
+
+    <div class="card purple">
+
+        <div class="card-icon">🍳</div>
+
+        <h3>Sedang Diproses</h3>
+
+        <div class="number">
+            {{ $diproses }}
+        </div>
+
+    </div>
+
+    <div class="card yellow">
+
+        <div class="card-icon">🎉</div>
+
+        <h3>Pesanan Selesai</h3>
+
+        <div class="number">
+            {{ $selesai }}
+        </div>
+
+    </div>
+
+    <div class="card purple">
+
+        <div class="card-icon">💰</div>
+
+        <h3>Pendapatan Hari Ini</h3>
+
+        <div class="number" style="font-size:24px">
+            Rp 0
+        </div>
+
+    </div>
+
+</div>
 
             <div class="card purple">
 
@@ -293,25 +345,28 @@
 
         <div class="quick-menu">
 
-            <h2>Akses Cepat ⚡</h2>
+    <h2>Akses Cepat ⚡</h2>
 
-            <div class="buttons">
+    <div class="buttons">
 
-                <a
-                    href="{{ route('kasir.orders') }}"
-                    class="btn btn-primary"
-                >
-                    🧾 Lihat Pesanan
-                </a>
+        <a href="{{ route('kasir.orders') }}"
+           class="btn btn-primary">
+            🧾 Lihat Pesanan
+        </a>
 
-                <a
-                    href="{{ route('kasir.history') }}"
-                    class="btn btn-secondary"
-                >
-                    📊 Riwayat Transaksi
-                </a>
+        <a href="{{ route('kasir.history') }}"
+           class="btn btn-secondary">
+            📊 Riwayat
+        </a>
 
-            </div>
+        <a href="{{ route('kasir.laporan') }}"
+           class="btn btn-primary">
+            📄 Laporan Penjualan
+        </a>
+
+    </div>
+
+</div>
 
         </div>
 
