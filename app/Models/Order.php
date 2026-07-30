@@ -14,13 +14,27 @@ class Order extends Model
         'notes',
     ];
 
+    /**
+     * Relasi ke detail pesanan
+     */
     public function items()
     {
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * Relasi ke pembayaran
+     */
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    /**
+     * Total item yang dipesan
+     */
+    public function getTotalItemAttribute()
+    {
+        return $this->items->sum('quantity');
     }
 }
