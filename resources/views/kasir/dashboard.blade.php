@@ -277,6 +277,30 @@
 
     <div class="card purple">
 
+        <div class="card-icon">🍳</div>
+
+        <h3>Sedang Diproses</h3>
+
+        <div class="number">
+            {{ $diproses }}
+        </div>
+
+    </div>
+
+    <div class="card yellow">
+
+        <div class="card-icon">🎉</div>
+
+        <h3>Pesanan Selesai</h3>
+
+        <div class="number">
+            {{ $selesai }}
+        </div>
+
+    </div>
+
+    <div class="card purple">
+
         <div class="card-icon">💰</div>
 
         <h3>Pendapatan Hari Ini</h3>
@@ -288,32 +312,6 @@
     </div>
 
 </div>
-
-            <div class="card purple">
-
-                <div class="card-icon">
-                    🍳
-                </div>
-
-                <h3>Sedang Diproses</h3>
-
-                <div class="number">
-                    {{ $diproses }}
-                </div>
-
-            </div>
-
-            <div class="card yellow">
-
-                <div class="card-icon">
-                    🎉
-                </div>
-
-                <h3>Pesanan Selesai</h3>
-
-                <div class="number">
-                    {{ $selesai }}
-                </div>
 
             </div>
 
