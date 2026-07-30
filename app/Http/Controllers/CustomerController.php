@@ -19,12 +19,11 @@ class CustomerController extends Controller
     {
         return view('customer.landing');
     }
-}
     // ===========================
     // HALAMAN MENU CUSTOMER
     // ===========================
-class CustomerController extends Controller
-{
+
+
     public function index(Request $request)
     {
         $kategoriId = $request->get('kategori');
@@ -254,7 +253,15 @@ class CustomerController extends Controller
     // ===========================
 
     public function paymentQris(Order $order)
-    {
+        {
         return view('customer.payment-qris', compact('order'));
+        }
+    // ===========================
+    // HALAMAN SCAN QR
+    // ===========================
+
+    public function scanQr()
+    {
+    return view('customer.scan-qr');
     }
 }

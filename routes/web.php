@@ -105,6 +105,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/customer/payment/qris/{order}', [CustomerController::class, 'paymentQris'])
             ->name('customer.payment.qris');
 
+        Route::get('/customer/scan-qr', [CustomerController::class, 'scanQr'])
+            ->name('customer.scan.qr');
+
+        Route::get('/customer/landing', [CustomerController::class, 'landing'])
+            ->name('customer.landing');
+
         // =========================
         // KASIR
         // =========================
